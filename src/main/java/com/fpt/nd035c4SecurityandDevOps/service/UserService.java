@@ -5,7 +5,7 @@ import com.fpt.nd035c4SecurityandDevOps.model.requests.CreateUserRequest;
 import com.fpt.nd035c4SecurityandDevOps.model.responses.UserResponse;
 
 public interface UserService {
-    User createUser(CreateUserRequest createUserRequest) throws Exception;
-    UserResponse findByUserName(String username) throws Exception;
-    UserResponse findById(Long id) throws Exception;
+    User createUser(CreateUserRequest createUserRequest);
+    UserResponse findByUserName(String username);
+    UserResponse findById(Long id);
 }

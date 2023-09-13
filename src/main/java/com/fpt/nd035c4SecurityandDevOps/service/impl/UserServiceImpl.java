@@ -8,7 +8,6 @@ import com.fpt.nd035c4SecurityandDevOps.model.requests.CreateUserRequest;
 import com.fpt.nd035c4SecurityandDevOps.model.responses.UserResponse;
 import com.fpt.nd035c4SecurityandDevOps.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User createUser(CreateUserRequest createUserRequest) throws Exception {
+    public User createUser(CreateUserRequest createUserRequest){
         User user = new User();
         user.setUsername(createUserRequest.getUsername());
         Cart cart = new Cart();
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
         user.setCart(cart);
         if(createUserRequest.getPassword().length()<7 ||
                 !createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
-           throw new Exception("Password and Confirm password not match!");
+           return null;
         }
         user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
         userRepository.save(user);
@@ -42,34 +41,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse findByUserName(String username) throws Exception {
+    public UserResponse findByUserName(String username) {
         User user = userRepository.findByUsername(username);
-        if (user == null){
-            return new UserResponse("User not found!!",String.valueOf(HttpStatus.BAD_REQUEST));
+        UserResponse userResponse = new UserResponse();
+        if (user != null){
+            Cart cart = user.getCart();
+            userResponse.setIdUser(user.getId());
+            userResponse.setUsername(user.getUsername());
+            userResponse.setIdCard(cart.getId());
+            if(cart.getItems() != null && cart.getItems().size() > 0){
+                userResponse.setItemsCard(cart.getItems());
+                userResponse.setTotalCard(cart.getTotal());
+            }
         }
-        return new UserResponse("Get information user successful!!",
-                String.valueOf(HttpStatus.OK),user.getId(), user.getUsername(),
-                user.getCart().getId(), user.getCart().getItems(), user.getCart().getTotal());
+        return userResponse;
     }
 
     @Override
-    public UserResponse findById(Long id) throws Exception {
+    public UserResponse findById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         UserResponse userResponse = new UserResponse();
-        if (!optionalUser.isPresent()){
-            userResponse.setMessageId(String.valueOf(HttpStatus.BAD_REQUEST));
-            userResponse.setMessage("User not found!!");
-            return userResponse;
-        }
-        User user = optionalUser.get();
-        Cart cart = user.getCart();
-        userResponse.setIdUser(user.getId());
-        userResponse.setMessage("Get information user successful!!");
-        userResponse.setMessageId(String.valueOf(HttpStatus.OK));
-        if (cart != null){
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            Cart cart = user.getCart();
+            userResponse.setIdUser(user.getId());
+            userResponse.setUsername(user.getUsername());
             userResponse.setIdCard(cart.getId());
-            userResponse.setItemsCard(cart.getItems());
-            userResponse.setTotalCard(cart.getTotal());
+            if(cart.getItems() != null && cart.getItems().size() > 0){
+                userResponse.setItemsCard(cart.getItems());
+                userResponse.setTotalCard(cart.getTotal());
+            }
         }
         return userResponse;
     }

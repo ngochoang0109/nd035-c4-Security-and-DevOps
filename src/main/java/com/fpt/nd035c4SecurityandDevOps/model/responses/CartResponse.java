@@ -1,27 +1,21 @@
 package com.fpt.nd035c4SecurityandDevOps.model.responses;
 
-import com.fpt.nd035c4SecurityandDevOps.model.persistence.Item;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-public class UserResponse{
-
+public class CartResponse {
+    private long idCard;
     private long idUser;
     private String username;
-    private long idCard;
-    private List<Item> itemsCard;
+    private List<ItemResponse> itemsCard;
     private BigDecimal totalCard;
 
-    public UserResponse() {
+    public long getIdCard() {
+        return idCard;
     }
 
-    public UserResponse(long idUser, String username, long idCard, List<Item> itemsCard, BigDecimal totalCard) {
-        this.idUser = idUser;
-        this.username = username;
+    public void setIdCard(long idCard) {
         this.idCard = idCard;
-        this.itemsCard = itemsCard;
-        this.totalCard = totalCard;
     }
 
     public long getIdUser() {
@@ -40,19 +34,11 @@ public class UserResponse{
         this.username = username;
     }
 
-    public long getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(long idCard) {
-        this.idCard = idCard;
-    }
-
-    public List<Item> getItemsCard() {
+    public List<ItemResponse> getItemsCard() {
         return itemsCard;
     }
 
-    public void setItemsCard(List<Item> itemsCard) {
+    public void setItemsCard(List<ItemResponse> itemsCard) {
         this.itemsCard = itemsCard;
     }
 

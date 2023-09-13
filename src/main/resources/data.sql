@@ -1,0 +1,2 @@
+INSERT INTO item (name, price, description) VALUES ('Round Widget', 2.99, 'A widget that is round');
+INSERT INTO item (name, price, description) VALUES ('Square Widget',1.99,'A widget that is square');

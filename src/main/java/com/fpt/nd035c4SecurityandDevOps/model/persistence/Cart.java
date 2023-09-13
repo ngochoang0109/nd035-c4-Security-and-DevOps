@@ -77,10 +77,16 @@ public class Cart {
         if(items == null) {
             items = new ArrayList<>();
         }
-        items.remove(item);
+        final BigDecimal bigDecZeroVal = new BigDecimal(0);
         if(total == null) {
-            total = new BigDecimal(0);
+            total = bigDecZeroVal;
         }
-        total = total.subtract(item.getPrice());
+        if (items != null && items.size() > 0){
+            items.remove(item);
+            total = total.subtract(item.getPrice());
+            if (total.compareTo(bigDecZeroVal) < 0){
+                total = bigDecZeroVal;
+            }
+        }
     }
 }
