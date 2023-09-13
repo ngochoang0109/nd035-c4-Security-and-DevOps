@@ -16,9 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 import java.net.URI;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -30,7 +32,7 @@ class SareetaApplicationTests {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	private String authenJson = new String();
+	private String authenJson = "";
 
 	private final int ITEM_ID_1 = 1;
 	private final int ITEM_QUANTITY_5 = 5;
